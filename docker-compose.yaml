@@ -1,0 +1,6 @@
+services:
+  traveltor-bot:
+    build: .
+    image: traveltor-bot
+    container_name: traveltor-bot
+    restart: unless-stopped

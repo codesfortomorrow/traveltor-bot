@@ -1,0 +1,17 @@
+# Version control
+.git
+.gitignore
+
+# IDE/Tools
+.vscode/
+.husky/
+
+# Document/Markdown files
+*.md
+
+# Environment
+.venv
+*.env
+
+# OS
+.DS_Store
