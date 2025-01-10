@@ -1,0 +1,35 @@
+name: Deployment
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    name: Deploy on remote server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install SSH keys
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ vars.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Connect and run commands
+        run: |
+          ssh -v ubuntu@${{ vars.SSH_HOST }} \
+          "cd /home/ubuntu/traveltor-bot \
+          && git remote set-url origin git@github.com:${{ vars.REPOSITORY }}.git \
+          && export NVM_DIR=\$HOME/.nvm \
+          && source \$NVM_DIR/nvm.sh \
+          && git checkout main \
+          && git pull \
+          && docker compose up -d --build \
+          && exit"
+
+      - name: Cleanup
+        run: rm -rf ~/.ssh
