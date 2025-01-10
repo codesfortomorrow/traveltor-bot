@@ -90,7 +90,7 @@ async def handle_greeting(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
         # Keep the last 15 replies unique
         last_replies.append(unique_reply)
-        if len(last_replies) > 15:
+        if len(last_replies) > len(quotes):
             last_replies.pop(0)
 
         # Create the reply message
