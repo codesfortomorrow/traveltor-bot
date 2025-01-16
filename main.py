@@ -3,6 +3,8 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 import random
 import os
+import traceback
+import logging
 
 load_dotenv()
 
@@ -118,4 +120,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        logging.error(traceback.format_exc())
+        # Logs the error appropriately. 
