@@ -21,9 +21,16 @@ SPECIFIC_GROUP_CHAT_ID = os.getenv('CHAT_ID')
 # Define the start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f"Chat ID: {update.message.chat.id}")
-    if update.message.chat.id == SPECIFIC_GROUP_CHAT_ID:
-        await update.message.reply_text(
-            f"Oh wow, you found the magic command `/start`! 🎩✨\n\n"
+    print(f"G Chat ID: {SPECIFIC_GROUP_CHAT_ID}")
+    if str(update.message.chat.id) == str(SPECIFIC_GROUP_CHAT_ID):
+    #     await update.message.reply_text(
+    #         f"Oh wow, you found the magic command `/start`! 🎩✨\n\n"
+    #         "Unfortunately, this isn’t Hogwarts, and `/start` won’t summon anything exciting here. 😜\n\n"
+    #         "But hey, feel free to explore the group, share your experiences, and let's make travel unforgettable—no magic spells required! 🚀",
+    #         parse_mode="Markdown")
+        await context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=f"Oh wow, you found the magic command `/start`! 🎩✨\n\n"
             "Unfortunately, this isn’t Hogwarts, and `/start` won’t summon anything exciting here. 😜\n\n"
             "But hey, feel free to explore the group, share your experiences, and let's make travel unforgettable—no magic spells required! 🚀",
             parse_mode="Markdown")
@@ -31,7 +38,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Define a function to welcome new members with an inline button
 async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.message.chat.id == SPECIFIC_GROUP_CHAT_ID:
+    if str(update.message.chat.id) == str(SPECIFIC_GROUP_CHAT_ID):
         for member in update.message.new_chat_members:
             name = member.full_name
             chat_id = update.effective_chat.id
@@ -40,11 +47,49 @@ async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
             keyboard = [
                 [
                     InlineKeyboardButton("Visit Traveltor",
-                                         url="https://traveltor.io")
+                                            url="https://traveltor.io")
                 ],
                 [
                     InlineKeyboardButton("Follow us on X",
-                                         url="https://x.com/Traveltorsocial")
+                                            url="https://x.com/Traveltorsocial")
+                ],
+                [
+                    InlineKeyboardButton(
+                        "Follow us on LinkedIn",
+                        url="https://www.linkedin.com/company/traveltorsocial/"
+                    )
+                ]  # [InlineKeyboardButton("Instagram", url="https://www.instagram.com/traveltorsocial/")]
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+
+            reply_markup = InlineKeyboardMarkup(keyboard)
+
+
+            # Send the welcome message with the button
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text=f"🌄 Welcome to Traveltor, {name}! 💫\n\n"
+                "🌍 Traveltor turns your Journeys into Stories and *Movements into unforgettable Moments.*\n"
+                "🎁 Wherever you go, Just Check In, inspire your friends, and earn rewards along the way! Discover travel like never before!\n\n"
+                "🗺️ *Visit the platform and follow us on X and LinkedIn to stay connected!*",
+                parse_mode="Markdown",
+                reply_markup=reply_markup)
+            
+async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if str(update.message.chat.id) == str(SPECIFIC_GROUP_CHAT_ID):
+        for member in update.message.new_chat_members:
+            name = member.full_name
+            chat_id = update.effective_chat.id
+
+            # Create an inline keyboard with a button
+            keyboard = [
+                [
+                    InlineKeyboardButton("Visit Traveltor",
+                                            url="https://traveltor.io")
+                ],
+                [
+                    InlineKeyboardButton("Follow us on X",
+                                            url="https://x.com/Traveltorsocial")
                 ],
                 [
                     InlineKeyboardButton(
@@ -74,7 +119,14 @@ async def handle_greeting(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
     # Message content
     message_text = update.message.text.lower()
-    greetings = ['gm', 'gm gm', 'good morning']
+    greetings = ['gm', 'gm gm', 'good morning', 'gn', 'good night']
+    spiritual_greetings = [
+        'jai shree ram', 'jay shree ram', 'jai shri ram', 'jay shri ram',
+        'ram ram', 'sita ram', 'radhe radhe',
+        'jai mata ki', 'jay mata ki', 'jai mata di', 'jay mata di',
+        'jai ganesh', 'jay ganesh', 'jai shree shyam', 'jay shree shyam'
+    ]
+
 
     # Check if the message matches a greeting
     if any(greeting in message_text for greeting in greetings):
@@ -97,6 +149,17 @@ async def handle_greeting(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
         # Create the reply message
         reply_message = f"🌅 GM {user_first_name}!\n\n{unique_reply}"
+
+        # Send the reply
+        await context.bot.send_message(chat_id=update.message.chat_id, text=reply_message)
+    elif any(greeting in message_text for greeting in spiritual_greetings):
+        print("Spiritual greeting detected")  # Debugging log
+
+        # Get the sender's first name
+        user_first_name = update.message.from_user.first_name
+
+        # Create the reply message
+        reply_message = f"Jai Shree Mahakal 🙏, {user_first_name}"
 
         # Send the reply
         await context.bot.send_message(chat_id=update.message.chat_id, text=reply_message)
