@@ -38,7 +38,7 @@ async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
             keyboard = [
                 [
                     InlineKeyboardButton("Visit Traveltor",
-                                         url="https://staging.traveltor.io")
+                                         url="https://traveltor.io")
                 ],
                 [
                     InlineKeyboardButton("Follow us on X",
