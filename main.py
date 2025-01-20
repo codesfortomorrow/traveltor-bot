@@ -270,7 +270,7 @@ async def handle_greeting(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 break
 
         # Create the reply message with spiritual tone
-        reply_message = f"🙏 {response}, {user_first_name}! May your day be blessed. 🌸\n\nIs there something you'd like to share or ask?"
+        reply_message = f"🙏 {response}, {user_first_name}! May your day be blessed. 🌸"
 
         # Send the reply
         await context.bot.send_message(chat_id=update.message.chat_id, text=reply_message)
@@ -339,7 +339,7 @@ async def handle_movie_response(update: Update, context: ContextTypes.DEFAULT_TY
     context.user_data['expecting_movie_name'] = True
 
     # Send the dialogue to the user and ask for the movie name
-    response = f"I am Cool as always \n\n though I was watching a movie!!\n\n You know its famous dialogue is: {movie_data['dialogue']}. \n\n Can you tell me the movie name?"
+    response = f"I am cool as always 😎\n\nThough I was watching a movie!!🎥!!\n\n You know its famous dialogue is ~\n {movie_data['dialogue']}. 🎬\n\n\n\n Can you tell me the movie name?🤔🍿"
     await context.bot.send_message(chat_id=update.message.chat_id, text=response)
 # Movie guess handler
 async def handle_movie_guess(update: Update, context: ContextTypes.DEFAULT_TYPE):
