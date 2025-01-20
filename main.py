@@ -250,7 +250,7 @@ async def handle_greeting(update: Update, context: ContextTypes.DEFAULT_TYPE):
             last_replies.pop(0)
 
         # Create the reply message
-        reply_message = f"🌅 Good morning, {user_first_name}! ☀️\n\n{unique_reply} 😊\n\nBy the way, how's your day going so far?"
+        reply_message = f"🌅 Hey {user_first_name}! ☀️\n\n{unique_reply} 😊\n\nBy the way, how's your day going so far?"
 
         # Send the reply
         await context.bot.send_message(chat_id=update.message.chat_id, text=reply_message)
@@ -274,16 +274,16 @@ async def handle_greeting(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         # Send the reply
         await context.bot.send_message(chat_id=update.message.chat_id, text=reply_message)
-    elif any(keyword in user_message for keyword in english_about_keywords):
+    elif bot_username.lower() in user_message and  any(keyword in user_message for keyword in english_about_keywords):
         await handle_about_bot(update, context, 'en')
     # Check if the message is related to Hindi questions
-    elif any(keyword in user_message for keyword in hindi_about_keywords):
+    elif bot_username.lower() in user_message and any(keyword in user_message for keyword in hindi_about_keywords):
         await handle_about_bot(update, context, 'hi')
-    elif any(keyword in user_message for keyword in english_general_keywords):
+    elif bot_username.lower() in user_message and any(keyword in user_message for keyword in english_general_keywords):
         await handle_general_questions(update, context, 'en')
-    elif any(keyword in user_message for keyword in hindi_general_keywords):
+    elif bot_username.lower() in user_message and any(keyword in user_message for keyword in hindi_general_keywords):
         await handle_general_questions(update, context, 'hi')    
-    else:
+    elif bot_username.lower() in user_message and True :
         # In case no match, the bot can respond with a default message in English
         await context.bot.send_message(chat_id=update.message.chat_id, text="Maaf kijiyega, bhai ka phone hai dubai se thodi der me reply karunga.")
     
@@ -326,7 +326,6 @@ async def handle_general_questions(update: Update, context: ContextTypes.DEFAULT
         if keyword in user_message:
             await context.bot.send_message(chat_id=update.message.chat_id, text=response)
             break
-            
 # Improved handle_greeting with movie guessing logic
 async def handle_movie_response(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Select a random movie and its famous dialogue from a predefined list of movies and dialogues
@@ -340,7 +339,7 @@ async def handle_movie_response(update: Update, context: ContextTypes.DEFAULT_TY
     context.user_data['expecting_movie_name'] = True
 
     # Send the dialogue to the user and ask for the movie name
-    response = f"I was watching a movie, and its famous dialogue is: {movie_data['dialogue']}. Can you tell me the movie name?"
+    response = f"I am Cool as always \n\n though I was watching a movie!!\n\n You know its famous dialogue is: {movie_data['dialogue']}. \n\n Can you tell me the movie name?"
     await context.bot.send_message(chat_id=update.message.chat_id, text=response)
 # Movie guess handler
 async def handle_movie_guess(update: Update, context: ContextTypes.DEFAULT_TYPE):
